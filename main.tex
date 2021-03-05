@@ -476,7 +476,7 @@ Y_{nm}(\theta,\phi)\begin{bmatrix}
 -\sin{\theta} 
 \end{bmatrix}
 +
-imY_{nm}(\theta,\phi)
+\frac{imY_{nm}(\theta,\phi)}{\sin(\theta)}
 \begin{bmatrix}
 -\sin{\phi} \\
 \cos{\phi} \\
@@ -485,14 +485,14 @@ imY_{nm}(\theta,\phi)
 \bPsi_{nm}(\theta,\phi) &= \hat{\br} \times \bPsi_{nm}(\theta,\phi) \, .
 \end{aligned}
 \end{equation} 
-Let $j_{n}(z),h_{n}(z)$, denote the spherical Bessel and spherical Hankel functions of degree $n$. Let $\Omega$ be the interior of the unit sphere $\pa \Omega$ denote it's boundary. Finally, let $\cS_{k}[\sigma]$ denote the Helmholtz single layer potential given by
+Let $j_{n}(z),h_{n}(z)$ denote the spherical Bessel and spherical Hankel functions of degree $n$. Let $\Omega$ be the interior of the unit sphere $\pa \Omega$ denote it's boundary. Finally, let $\cS_{k}[\sigma]$ denote the Helmholtz single layer potential given by
 \begin{equation}
 \cS_{k}[\sigma](\bx) = \int_{\pa \Omega} \frac{e^{ik|\bx-\by|}}{|\bx-\by|} \sigma(\by) dS_{\by} \, .
 \end{equation}
 For any $\bx \in \Omega$, let $(r,\theta,\phi)$, denote it's spherical coordinates. Then the following equalities hold:
 \begin{equation}
 \begin{aligned}
-\cS_{k}[\bPsi_{nm}](\bx) &= i n(n+1) \left( \frac{j_{n}(kr)}{kr} \left( h_{n}(k) + kh_{n}'(k) \right) + j_{n}'(k) h_{n}(k) \right) \bY_{nm}(\theta,\phi) + \\
+\cS_{k}[\bPsi_{nm}](\bx) &= i n(n+1) \left( \frac{j_{n}(kr)}{kr} \left( h_{n}(k) + kh_{n}'(k) \right) + j_{n}'(kr) h_{n}(k) \right) \bY_{nm}(\theta,\phi) + \\
 & \quad \quad \quad i\left(  \left(j_{n}'(kr) + \frac{j_{n}(kr)}{kr}\right) \left( h_{n}(k) + kh_{n}'(k) \right) + n(n+1)h_{n}(k)\frac{j_{n}(kr)}{kr} \right) \bPsi_{nm}(\theta,\phi) \, , \\
 \cS_{k}[\bPhi_{nm}](\bx) &= ik j_{n}(kr) h_{n}(k) \bPhi_{nm}(\theta,\phi) \, , \\
 \nabla \cS_{k}[Y_{nm}](\bx) &=  ik^2 h_{n}(k) j_{n}'(kr) \bY_{nm}(\theta,\phi) + ikh_{n}(k) \frac{j_{n}(kr)}{r} \bPsi_{nm}(\theta,\phi) \, ,\\
