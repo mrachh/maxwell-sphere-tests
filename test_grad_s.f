@@ -145,8 +145,9 @@ c
 
       call get_rfacs(norder_avg,iptype_avg,rfac,rfac0)
 
-
-      ntarg = 1
+      ntargin = 1
+      ntargout = 1
+      ntarg = ntargin + ntargout
       allocate(targs(3,ntarg))
       allocate(ipatch_id(ntarg),uvs_targ(2,ntarg))
       do i=1,ntarg
@@ -155,6 +156,10 @@ c
         phi = hkrand(0)*2*pi
 
         r = 0.99999d0
+        if (i.gt.ntargin) then
+          r = hkrand(0)*0.8d0 + 1.2d0
+          r = 1.31d0
+        endif
 
         targs(1,i) = r*sin(thet)*cos(phi)
         targs(2,i) = r*sin(thet)*sin(phi)
@@ -164,7 +169,6 @@ c
         uvs_targ(1,i) = 0
         uvs_targ(2,i) = 0
       enddo
-C$OMP END PARALLEL DO      
 
       nnz = ntarg*npatches
       allocate(row_ptr(ntarg+1),col_ind(nnz))
@@ -254,7 +258,7 @@ cc      call prin2('ecomp=*',ecomp,6*ntarg)
 
       erra = 0
       ra = 0
-      do i=1,ntarg
+      do i=1,ntargin
         r = sqrt(targs(1,i)**2 + targs(2,i)**2 + targs(3,i)**2)
         z1 = zk*r
         call besseljs3d(njh,z1,rscale,fjvalst,ifder,fjdert)
@@ -271,6 +275,27 @@ cc      call prin2('ecomp=*',ecomp,6*ntarg)
 
       erra = sqrt(erra/ra)
       call prin2('error in nabla S[ynm]=*',erra,1)
+
+
+      erra = 0
+      ra = 0
+      do i=ntargin+1,ntarg
+        r = sqrt(targs(1,i)**2 + targs(2,i)**2 + targs(3,i)**2)
+        z1 = zk*r
+        call h3dall(njh,z1,rscale,fhvalst,ifder,fhdert)
+        z2 = ima*zk**2*fjvals(nn)*fhdert(nn) 
+        z3 = ima*zk*fjvals(nn)*fhvalst(nn)/r 
+        eex(1:3,i) = psinm_targ(1:3,i)*z3 + vynm_targ(1:3,i)*z2
+        erra = erra + abs(eex(1,i)-ecomp(1,i))**2
+        erra = erra + abs(eex(2,i)-ecomp(2,i))**2
+        erra = erra + abs(eex(3,i)-ecomp(3,i))**2
+        ra = ra + abs(eex(1,i))**2
+        ra = ra + abs(eex(2,i))**2
+        ra = ra + abs(eex(3,i))**2
+      enddo
+
+      erra = sqrt(erra/ra)
+      call prin2('error in exterior nabla S[ynm]=*',erra,1)
 
 
 

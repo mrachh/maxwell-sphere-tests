@@ -61,7 +61,7 @@
 
 
       igeomtype = 1
-      ipars(1) = 1 
+      ipars(1) = 2 
       npatches=12*(4**ipars(1))
 
       norder = 8 
@@ -145,8 +145,9 @@ c
 
       call get_rfacs(norder_avg,iptype_avg,rfac,rfac0)
 
-
-      ntarg = 1
+      ntargin = 1
+      ntargout = 1
+      ntarg = ntargin + ntargout
       allocate(targs(3,ntarg))
       allocate(ipatch_id(ntarg),uvs_targ(2,ntarg))
       do i=1,ntarg
@@ -156,6 +157,11 @@ c
 
         r = 0.999d0
 
+        if(i.gt.ntargin) then
+          r = hkrand(0)*0.8 + 1.2d0
+          r = 1.2d0
+        endif
+
         targs(1,i) = r*sin(thet)*cos(phi)
         targs(2,i) = r*sin(thet)*sin(phi)
         targs(3,i) = r*cos(thet)
@@ -164,7 +170,6 @@ c
         uvs_targ(1,i) = 0
         uvs_targ(2,i) = 0
       enddo
-C$OMP END PARALLEL DO      
 
       nnz = ntarg*npatches
       allocate(row_ptr(ntarg+1),col_ind(nnz))
@@ -256,10 +261,9 @@ c
       call l3getsph_vec(mm,nn,3,ntarg,targs,vynm_targ,psinm_targ,
      1   phinm_targ)
 
-cc      call prin2('zk=*',zk,1)
       erra = 0
       ra = 0
-      do i=1,ntarg
+      do i=1,ntargin
         r = sqrt(targs(1,i)**2 + targs(2,i)**2 + targs(3,i)**2)
         z1 = zk*r
         call besseljs3d(njh,z1,rscale,fjvalst,ifder,fjdert)
@@ -277,15 +281,35 @@ cc      call prin2('zk=*',zk,1)
         ra = ra + abs(eex(3,i))**2
       enddo
 
-      call prin2('eex=*',eex,6*ntarg)
-      call prin2('ecomp=*',ecomp,6*ntarg)
-
       erra = sqrt(erra/ra)
       call prin2('error in S[\psinm]=*',erra,1)
-      stop
+
+      erra = 0
+      ra = 0
+      do i=ntargin+1,ntarg
+        r = sqrt(targs(1,i)**2 + targs(2,i)**2 + targs(3,i)**2)
+        z1 = zk*r
+        call h3dall(njh,z1,rscale,fhvalst,ifder,fhdert)
+        z2 = ima*nn*(nn+1.0d0)*(fhvalst(nn)/r*(fjvals(nn) +
+     1       zk*fjder(nn)) + fhdert(nn)*fjvals(nn)*zk)/zk
+        z3 = (ima*(zk**2*fhdert(nn) + fhvalst(nn)*zk/r)*(fjvals(nn) + 
+     1       zk*fjder(nn)) +
+     2       ima*nn*(nn+1.0d0)*zk*fjvals(nn)*fhvalst(nn)/r)/zk**2
+        eex(1:3,i) = psinm_targ(1:3,i)*z3 + vynm_targ(1:3,i)*z2
+        erra = erra + abs(eex(1,i)-ecomp(1,i))**2
+        erra = erra + abs(eex(2,i)-ecomp(2,i))**2
+        erra = erra + abs(eex(3,i)-ecomp(3,i))**2
+        ra = ra + abs(eex(1,i))**2
+        ra = ra + abs(eex(2,i))**2
+        ra = ra + abs(eex(3,i))**2
+      enddo
+
+      erra = sqrt(erra/ra)
+      call prin2('error in exterior S[\psinm]=*',erra,1)
+
 
 c
-c  test \nabla \times s[phinm]
+c  test s[phinm]
 c
       do i=1,ntarg
         ecomp(1:3,i) = 0
@@ -303,7 +327,7 @@ c
 
       erra = 0
       ra = 0
-      do i=1,ntarg
+      do i=1,ntargin
         r = sqrt(targs(1,i)**2 + targs(2,i)**2 + targs(3,i)**2)
         z1 = zk*r
         call besseljs3d(njh,z1,rscale,fjvalst,ifder,fjdert)
@@ -320,6 +344,24 @@ c
       erra = sqrt(erra/ra)
       call prin2('error in S[\phinm]=*',erra,1)
 
+      erra = 0
+      ra = 0
+      do i=ntargin+1,ntarg
+        r = sqrt(targs(1,i)**2 + targs(2,i)**2 + targs(3,i)**2)
+        z1 = zk*r
+        call h3dall(njh,z1,rscale,fhvalst,ifder,fhdert)
+        z2 = ima*fjvals(nn)*zk*fhvalst(nn)
+        eex(1:3,i) = phinm_targ(1:3,i)*z2 
+        erra = erra + abs(eex(1,i)-ecomp(1,i))**2
+        erra = erra + abs(eex(2,i)-ecomp(2,i))**2
+        erra = erra + abs(eex(3,i)-ecomp(3,i))**2
+        ra = ra + abs(eex(1,i))**2
+        ra = ra + abs(eex(2,i))**2
+        ra = ra + abs(eex(3,i))**2
+      enddo
+
+      erra = sqrt(erra/ra)
+      call prin2('error in exterior S[\phinm]=*',erra,1)
 
 
       stop

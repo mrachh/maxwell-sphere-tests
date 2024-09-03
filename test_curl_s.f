@@ -61,7 +61,7 @@
 
 
       igeomtype = 1
-      ipars(1) = 2 
+      ipars(1) = 3 
       npatches=12*(4**ipars(1))
 
       norder = 8 
@@ -145,8 +145,10 @@ c
 
       call get_rfacs(norder_avg,iptype_avg,rfac,rfac0)
 
+      ntargin = 1
+      ntargout = 1
 
-      ntarg = 1
+      ntarg = ntargin + ntargout
       allocate(targs(3,ntarg))
       allocate(ipatch_id(ntarg),uvs_targ(2,ntarg))
       do i=1,ntarg
@@ -155,6 +157,11 @@ c
         phi = hkrand(0)*2*pi
 
         r = 0.99999d0
+
+        if (i.gt.ntargin) then
+          r = hkrand(0)*0.8d0 + 1.2d0
+          r = 1.31d0
+        endif
 
         targs(1,i) = r*sin(thet)*cos(phi)
         targs(2,i) = r*sin(thet)*sin(phi)
@@ -249,8 +256,6 @@ c
         enddo
       enddo
 
-cc      call prin2('ecomp=*',ecomp,6*ntarg)
-
 
       allocate(vynm_targ(3,ntarg),phinm_targ(3,ntarg))
       allocate(psinm_targ(3,ntarg))
@@ -259,10 +264,9 @@ cc      call prin2('ecomp=*',ecomp,6*ntarg)
       call l3getsph_vec(mm,nn,3,ntarg,targs,vynm_targ,psinm_targ,
      1   phinm_targ)
 
-cc      call prin2('zk=*',zk,1)
       erra = 0
       ra = 0
-      do i=1,ntarg
+      do i=1,ntargin
         r = sqrt(targs(1,i)**2 + targs(2,i)**2 + targs(3,i)**2)
         z1 = zk*r
         call besseljs3d(njh,z1,rscale,fjvalst,ifder,fjdert)
@@ -278,6 +282,26 @@ cc      call prin2('zk=*',zk,1)
 
       erra = sqrt(erra/ra)
       call prin2('error in curl S[\psinm]=*',erra,1)
+
+      erra = 0
+      ra = 0
+      do i=ntargin+1,ntarg
+        r = sqrt(targs(1,i)**2 + targs(2,i)**2 + targs(3,i)**2)
+        z1 = zk*r
+        call h3dall(njh,z1,rscale,fhvalst,ifder,fhdert)
+        z2 = -ima*fhvalst(nn)*zk*(zk*fjder(nn)+fjvals(nn))
+        eex(1:3,i) = phinm_targ(1:3,i)*z2
+        erra = erra + abs(eex(1,i)-ecomp(1,i))**2
+        erra = erra + abs(eex(2,i)-ecomp(2,i))**2
+        erra = erra + abs(eex(3,i)-ecomp(3,i))**2
+        ra = ra + abs(eex(1,i))**2
+        ra = ra + abs(eex(2,i))**2
+        ra = ra + abs(eex(3,i))**2
+      enddo
+
+      erra = sqrt(erra/ra)
+      call prin2('error in exterior curl S[\psinm]=*',erra,1)
+
 
 c
 c  test \nabla \times s[phinm]
@@ -305,7 +329,7 @@ c
 
       erra = 0
       ra = 0
-      do i=1,ntarg
+      do i=1,ntargin
         r = sqrt(targs(1,i)**2 + targs(2,i)**2 + targs(3,i)**2)
         z1 = zk*r
         call besseljs3d(njh,z1,rscale,fjvalst,ifder,fjdert)
@@ -322,6 +346,27 @@ c
 
       erra = sqrt(erra/ra)
       call prin2('error in curl S[\phinm]=*',erra,1)
+
+
+      erra = 0
+      ra = 0
+      do i=ntargin+1,ntarg
+        r = sqrt(targs(1,i)**2 + targs(2,i)**2 + targs(3,i)**2)
+        z1 = zk*r
+        call h3dall(njh,z1,rscale,fhvalst,ifder,fhdert)
+        z2 = -ima*nn*(nn+1.0d0)*zk*fjvals(nn)*fhvalst(nn)/r
+        z3 = -ima*fjvals(nn)*(zk**2*fhdert(nn) + fhvalst(nn)*zk/r)
+        eex(1:3,i) = psinm_targ(1:3,i)*z3 + vynm_targ(1:3,i)*z2
+        erra = erra + abs(eex(1,i)-ecomp(1,i))**2
+        erra = erra + abs(eex(2,i)-ecomp(2,i))**2
+        erra = erra + abs(eex(3,i)-ecomp(3,i))**2
+        ra = ra + abs(eex(1,i))**2
+        ra = ra + abs(eex(2,i))**2
+        ra = ra + abs(eex(3,i))**2
+      enddo
+
+      erra = sqrt(erra/ra)
+      call prin2('error in exterior curl S[\phinm]=*',erra,1)
 
 
 

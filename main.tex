@@ -164,7 +164,7 @@
 \newcommand\dbar{\bar{\pa}}
 \newcommand\dbnc{\dbar\rho\rfloor}
 \newcommand\tnabla{\widetilde{\nabla}}
-\newcommand\bz{\bar{z}}
+\newcommand\bz{\boldsymbol{z}}
 \newcommand\sypr{\pi}
 \newcommand\syprc{\bar{\pi}}
 \newcommand\scp{\mathfrak p}
@@ -440,7 +440,7 @@
   \vspace{4\baselineskip}
 
   \raggedright
-  {\LARGE \sffamily\bfseries The ultimate guide to Maxwell layer potentials on the sphere}
+  {\LARGE \sffamily\bfseries The ultimate guide to layer potentials on the sphere}
   
   \vspace{\baselineskip}
 
@@ -455,11 +455,120 @@
   
 \end{titlepage}
 \newpage
-In this note, we consolidate analytic expressions for various maxwell layer potentials on the sphere. 
-In the following, $P_{nm}(t)$ are the associated legendre polynomials of degree $n$ and order $m$, $Y_{nm}(\theta,\phi)$, are the spherical harmonics of degree $n$ and order $m$ given by
+In this note, we consolidate analytic expressions for various layer potentials on the sphere. 
+In the following, $P_{nm}(t)$ are the associated Legendre polynomials of degree $n$ and order $m$, $Y_{nm}(\theta,\phi)$, are the spherical harmonics of degree $n$ and order $m$ given by
 \begin{equation}
 Y_{nm}(\theta,\phi) = \sqrt{2n+1} \frac{(n-|m|)!}{(n+|m|)!}  P_{n|m|}(\cos{\theta}) e^{im\phi} \, .
 \end{equation}  
+Let $j_{n}(z),h_{n}(z)$ denote the spherical Bessel and spherical Hankel functions of degree $n$. Let $\Omega^{-}$ be the interior of the unit sphere, $\pa \Omega$ denote it's boundary, and $\Omega^{+}$ denote the exterior of the unit sphere. For any $\bx \in \bbR^3$, let $(r,\theta,\phi)$, denote it's spherical coordinates.
+
+\section*{Scalar potentials}
+Let $G_{k}(\bx,\by) = e^{ik|\bx-\by|}/(4 \pi |\bx - \by|)$ denote the Helmholtz Green's function in three dimensions
+Let $\cS_{k}[\sigma]$ denote the Helmholtz single layer potential given by
+\begin{equation}
+\cS_{k}[\sigma](\bx) = \int_{\pa \Omega} G_{k}(\bx,\by) \sigma(\by) dS_{\by} \, ,
+\end{equation}
+and $\cD_{k}[\sigma]$ denote the Helmholtz double layer potential given by
+\begin{equation}
+\cD_{k}[\sigma](\bx) = \int_{\pa \Omega} \nabla_{\by} G_{k}(\bx,\by)  \cdot \bn(\by) \sigma(\by) dS_{\by} \, .
+\end{equation}
+
+We will use $\cS^{\pm}[\sigma]$, and $\cD^{\pm}[\sigma]$ to also denote the restrictions to these operators to the boundary where the superscript $`+'$ indicates an exterior limit, and the superscript $`-'$ denotes the interior limit.
+Let $\cS_{k}^{',\pm}[\sigma]$, and $\cD_{k}^{',\pm}[\sigma]$ denote the limiting values of the Neumann data corresponding to the single and double layer potentials given by
+\begin{equation}
+\begin{aligned}
+\cS_{k}^{',\pm}[\sigma](\bx) &= \lim_{\substack{\bz \to  \bx \\ \bx \in \Omega^{\pm}}} \left(  \bn(\bx) \cdot \nabla_{\bx} \left(  \int_{\pa \Omega} G_{k}(\bz,\by) \sigma(\by) \, dS_{\by}\right) \right)   \, , \\
+\cD_{k}'[\sigma](\bx) &= \textrm{f.p.} \left(  \bn(\bx) \cdot \nabla_{\bx} \left(  \int_{\pa \Omega} \left(\nabla_{\by}  G_{k}(\bx,\by) \cdot \bn(\by) \right) \sigma(\by) \, dS_{\by}\right) \right)   \, , \\
+\end{aligned}
+\end{equation}
+for $\bx \in \pa \Omega$. 
+Finally, let $\cS_{k}^{'',\pm}[\sigma]$ denote the limiting value of the second normal derivative of $\cS_{k}$ restricted to $\pa \Omega$ given by
+\begin{equation}
+\cS_{k}^{'',+}[\sigma](\bx) = \lim_{\substack{\bz \to  \bx \\ \bx \in \Omega^{\pm}}} \left(  \bn(\bx) \cdot \nabla_{\bx} \nabla_{\bx} \left(  \int_{\pa \Omega} G_{k}(\bz,\by) \sigma(\by) \, dS_{\by}\right) \cdot \bn(\bx) \right) \, ,
+\end{equation}
+for $\bx \in \pa \Omega$, and let $H(\bx)$ denote the mean curvature. 
+
+In a slight abuse of notation, let the principal value/finite part of these operators be denoted by
+$S_{k}[\sigma], D_{k}[\sigma], S_{k}'[\sigma], D_{k}'[\sigma]$, and $S''_{k}[\sigma]$ respectively. Of these $D_{k}, S_{k}'$ are principal value integrals, $S_{k}$ is absolutely convergent, and $D_{k}'$, $S_{k}''$ are finite part integrals.
+
+
+\subsection*{Limiting values on the boundary}
+The layer potentials satisfy the following jump relations. 
+Suppose that $\bx \in \Gamma$, then 
+\begin{equation}
+\label{eq:identites}
+\begin{aligned}
+\lim_{\substack{\by \to  \bx \\ \by \in \Omega^{\pm}}} \cS_{k} [\sigma](\by) &= S_{k}[\sigma](\bx) \, ,\\
+\cD^{\pm}_{k} [\sigma](\bx) &= \pm \frac{\sigma(\bx_{0})}{2} +  D_{k}[\sigma](\bx) \, ,\\
+\cS^{',\pm}_{k} [\sigma](\bx) &= \mp \frac{\sigma(\bx_{0})}{2} +  S_{k}^{'}[\sigma](\bx) \, ,\\
+\cD^{',\pm}_{k} [\sigma](\bx) &= D_{k}'[\sigma](\bx) \, ,\\
+\cS^{'',\pm}_{k} [\sigma](\bx) &= S_{k}''[\sigma](\bx) \, .
+\end{aligned}
+\end{equation}
+
+The layer potentials have the following limiting values on the boundary, see~\cite{felipe}, for example.
+
+\begin{equation}
+\begin{aligned}
+S_{k}[Y_{nm}] &= i k j_{n}(k)h_{n}(k) Y_{nm}(\theta, \phi) \, , \\
+\cD^{+}_{k}[Y_{nm}] &= i k^2 j_{n}'(k)h_{n}(k) Y_{nm}(\theta, \phi) \, , \\
+\cD^{-}_{k}[Y_{nm}] &= i k^2 j_{n}(k)h_{n}'(k) Y_{nm}(\theta, \phi) \, , \\
+D_{k}[Y_{nm}] &= \frac{i k^2}{2} \left(j_{n}(k)h_{n}'(k)  + j_{n}'(k)h_{n}(k) \right)Y_{nm}(\theta, \phi) \, , \\
+\cS^{',+}_{k}[Y_{nm}] &= i k^2 j_{n}(k)h_{n}'(k) Y_{nm}(\theta, \phi) \, , \\
+\cS^{',-}_{k}[Y_{nm}] &= i k^2 j_{n}'(k)h_{n}(k) Y_{nm}(\theta, \phi) \, , \\
+S'_{k}[Y_{nm}] &= \frac{i k^2}{2} \left(j_{n}(k)h_{n}'(k)  + j_{n}'(k)h_{n}(k) \right)Y_{nm}(\theta, \phi) \, , \\
+\cD_{k}^{',\pm} = D_{k}'[Y_{nm}] &= ik^3 j_{n}'(k) h_{n}'(k) Y_{nm}(\theta, \phi) \, .
+\end{aligned}
+\end{equation}
+
+
+\subsection*{Potentials in the interior and exterior}
+The value of the potentials in the interior and exterior domain are given by
+\begin{equation}
+\begin{aligned}
+\cS_{k}[Y_{nm}](\bx) &=\begin{cases}
+  & ik h_{n}(k)  j_{n}(kr) Y_{nm}(\theta, \phi) \, \quad r<1 \, ,\\
+    & ik j_{n}(k) h_{n}(kr) Y_{nm}(\theta, \phi) \, \quad r>1 \, ,
+  \end{cases} \, \\
+  \cD_{k}[Y_{nm}](\bx) &=\begin{cases}
+  & ik^2  h_{n}'(k) j_{n}(kr) Y_{nm}(\theta, \phi) \, \quad r<1 \, ,\\
+    & ik^2 j_{n}'(k) h_{n}(kr) Y_{nm}(\theta, \phi) \, \quad r>1 \, .
+  \end{cases}
+\end{aligned}
+\end{equation}
+
+\subsection*{Solution to various boundary value problems with incident planewaves}
+We begin by expressing the plane waves in terms of spherical bessel functions, 
+\begin{equation}
+e^{ik \bx \cdot \hat{\bz}} = e^{ik r \cos{\theta}} = \sum_{n=0}^{\infty} i^{n} \sqrt{2n + 1} j_{n}(kr) Y_{n0}(\theta, \phi) \, ,
+\end{equation}
+
+Note that solutions in interior domains with planewave data are the planewaves themselves since they already satisfy the 
+PDE. However, in exterior domains, they are not radiating/outgoing and hence the scattered field requires some computation.  In the following, that the scattered field $u$ is outgoing and satisfies the Sommerfeld radiation condition.
+
+\subsubsection{Dirichlet problem}
+Consider the exterior Dirichlet problem, then
+\begin{equation}
+\begin{aligned}
+(\Delta + k^2)u &= 0 \,, \quad \bx \in \Omega^{+},\\
+u &= -e^{ik \bx \cdot \hat{\bz}} \,, \quad \bx \in \pa \Omega \,.
+\end{aligned}
+\end{equation}
+Then
+\begin{equation}
+u = \sum_{n=0}^{\infty} i^{n} \sqrt{2n+1} j_{n}(k) h_{n}(kr) Y_{n0}(\theta, \phi)  .
+\end{equation}
+
+Suppose now we use a combined field representation to solve the Dirichlet problem then 
+\begin{equation}
+u = \alpha \cS_{k}[\sigma] + \beta \cD_{k}[\sigma] \, ,
+\end{equation}
+then
+\begin{equation}
+\sigma (\alpha ik j_{n}(k) h_{n}(k) + \beta ik^2 ) = 
+\end{equation}
+
+\section*{Vector potentials}
 Let $\bY_{nm}(\theta,\phi), \bPsi_{nm}(\theta,\phi), \bPhi_{nm}(\theta,\phi)$ denote the vector spherical harmonics given by
 \begin{equation}
 \begin{aligned}
@@ -482,25 +591,66 @@ Y_{nm}(\theta,\phi)\begin{bmatrix}
 \cos{\phi} \\
 0
 \end{bmatrix} \, ,\\
-\bPsi_{nm}(\theta,\phi) &= \hat{\br} \times \bPsi_{nm}(\theta,\phi) \, .
+\bPhi_{nm}(\theta,\phi) &= \hat{\br} \times \bPsi_{nm}(\theta,\phi) \, .
 \end{aligned}
 \end{equation} 
-Let $j_{n}(z),h_{n}(z)$ denote the spherical Bessel and spherical Hankel functions of degree $n$. Let $\Omega$ be the interior of the unit sphere $\pa \Omega$ denote it's boundary. Finally, let $\cS_{k}[\sigma]$ denote the Helmholtz single layer potential given by
+
+
+ Then the following equalities hold for:
 \begin{equation}
-\cS_{k}[\sigma](\bx) = \int_{\pa \Omega} \frac{e^{ik|\bx-\by|}}{|\bx-\by|} \sigma(\by) dS_{\by} \, .
+\cS_{k}[\bPsi_{nm}](\bx) = 
+{\small
+\begin{cases}
+&i n(n+1) \left( \frac{j_{n}(kr)}{kr} \left( h_{n}(k) + kh_{n}'(k) \right) + j_{n}'(kr) h_{n}(k) \right) \bY_{nm}(\theta,\phi) + \\
+& i\left(  \left(j_{n}'(kr) + \frac{j_{n}(kr)}{kr}\right) \left( h_{n}(k) + kh_{n}'(k) \right) + n(n+1)h_{n}(k)\frac{j_{n}(kr)}{kr} \right) \bPsi_{nm}(\theta,\phi) \quad r<1 \, , \\
+&i n(n+1) \left( \frac{h_{n}(kr)}{kr} \left( j_{n}(k) + kj_{n}'(k) \right) + h_{n}'(kr) j_{n}(k) \right) \bY_{nm}(\theta,\phi) + \\
+& i\left(  \left(h_{n}'(kr) + \frac{h_{n}(kr)}{kr}\right) \left( j_{n}(k) + kj_{n}'(k) \right) + n(n+1)j_{n}(k)\frac{h_{n}(kr)}{kr} \right) \bPsi_{nm}(\theta,\phi) \quad r>1 \, .
+\end{cases}}
 \end{equation}
-For any $\bx \in \Omega$, let $(r,\theta,\phi)$, denote it's spherical coordinates. Then the following equalities hold:
+
 \begin{equation}
-\begin{aligned}
-\cS_{k}[\bPsi_{nm}](\bx) &= i n(n+1) \left( \frac{j_{n}(kr)}{kr} \left( h_{n}(k) + kh_{n}'(k) \right) + j_{n}'(kr) h_{n}(k) \right) \bY_{nm}(\theta,\phi) + \\
-& \quad \quad \quad i\left(  \left(j_{n}'(kr) + \frac{j_{n}(kr)}{kr}\right) \left( h_{n}(k) + kh_{n}'(k) \right) + n(n+1)h_{n}(k)\frac{j_{n}(kr)}{kr} \right) \bPsi_{nm}(\theta,\phi) \, , \\
-\cS_{k}[\bPhi_{nm}](\bx) &= ik j_{n}(kr) h_{n}(k) \bPhi_{nm}(\theta,\phi) \, , \\
-\nabla \cS_{k}[Y_{nm}](\bx) &=  ik^2 h_{n}(k) j_{n}'(kr) \bY_{nm}(\theta,\phi) + ikh_{n}(k) \frac{j_{n}(kr)}{r} \bPsi_{nm}(\theta,\phi) \, ,\\
-\nabla \times \cS_{k}[\bPsi_{nm}](\bx) &= -i k j_{n}(kr) \left( h_{n}(k) + kh_{n}'(k) \right) \bPhi_{nm}(\theta,\phi) \, ,\\
-\nabla \times \cS_{k}[\bPhi_{nm}](\bx) &= -i n(n+1) k h_{n}(k) \frac{j_{n}(kr)}{r} \bY_{nm}(\theta,\phi) - i h_{n}(k) k^2 \left( j_{n}'(kr) + \frac{j_{n}(kr)}{kr}  \right) \bPsi_{nm}(\theta,\phi) \, , \\
-\nabla \times \nabla \times \cS_{k}[\bPsi_{nm}](\bx) &= i n(n+1) k \frac{j_{n}(kr)}{r} \left( h_{n}(k) + kh_{n}'(k) \right)  \bY_{nm}(\theta,\phi) + \\
-& \quad \quad \quad i\left(k^2 j_{n}'(kr) + k\frac{j_{n}(kr)}{r}\right) \left( h_{n}(k) + kh_{n}'(k) \right)  \bPsi_{nm}(\theta,\phi) \, , \\
-\nabla \times \nabla \times \cS_{k}[\bPhi_{nm}](\bx) &= ik^3 j_{n}(kr) h_{n}(k) \bPhi_{nm}(\theta,\phi) \, . \\
-\end{aligned}
+\cS_{k}[\bPhi_{nm}](\bx) = \begin{cases}
+  ik j_{n}(kr) h_{n}(k) \bPhi_{nm}(\theta,\phi) \quad & r<1 \, ,\\
+  ik j_{n}(k) h_{n}(kr) \bPhi_{nm}(\theta,\phi) \quad & r>1 \,.
+  \end{cases}
+\end{equation}
+
+\begin{equation}
+\nabla \cS_{k}[Y_{nm}](\bx) = \begin{cases} 
+ik^2 h_{n}(k) j_{n}'(kr) \bY_{nm}(\theta,\phi) + ikh_{n}(k) \frac{j_{n}(kr)}{r} \bPsi_{nm}(\theta,\phi) &\quad r< 1\, ,\\
+ik^2 j_{n}(k) h_{n}'(kr) \bY_{nm}(\theta,\phi) + ikj_{n}(k) \frac{h_{n}(kr)}{r} \bPsi_{nm}(\theta,\phi) &\quad r>1\, .
+\end{cases}
+\end{equation}
+
+\begin{equation}
+\nabla \times \cS_{k}[\bPsi_{nm}](\bx) = \begin{cases}
+ -i k j_{n}(kr) \left( h_{n}(k) + kh_{n}'(k) \right) \bPhi_{nm}(\theta,\phi) &\quad r<1\, ,\\
+  -i k h_{n}(kr) \left( j_{n}(k) + kj_{n}'(k) \right) \bPhi_{nm}(\theta,\phi) &\quad r>1\, .
+  \end{cases}
+\end{equation}
+
+\begin{equation}
+\nabla \times \cS_{k}[\bPhi_{nm}](\bx) = 
+{\small 
+\begin{cases}
+-i n(n+1) k h_{n}(k) \frac{j_{n}(kr)}{r} \bY_{nm}(\theta,\phi) - i h_{n}(k) k^2 \left( j_{n}'(kr) + \frac{j_{n}(kr)}{kr}  \right) \bPsi_{nm}(\theta,\phi) &\quad r<1 \, , \\
+-i n(n+1) k j_{n}(k) \frac{h_{n}(kr)}{r} \bY_{nm}(\theta,\phi) - i j_{n}(k) k^2 \left( h_{n}'(kr) + \frac{h_{n}(kr)}{kr}  \right) \bPsi_{nm}(\theta,\phi) &\quad r>1 \, .
+\end{cases}
+}
+\end{equation}
+\begin{equation}
+\nabla \times \nabla \times \cS_{k}[\bPsi_{nm}](\bx) = \begin{cases}
+& i n(n+1) k \frac{j_{n}(kr)}{r} \left( h_{n}(k) + kh_{n}'(k) \right)  \bY_{nm}(\theta,\phi) + \\
+& i\left(k^2 j_{n}'(kr) + k\frac{j_{n}(kr)}{r}\right) \left( h_{n}(k) + kh_{n}'(k) \right)  \bPsi_{nm}(\theta,\phi) \quad r<1\, , \\
+& i n(n+1) k \frac{h_{n}(kr)}{r} \left( j_{n}(k) + kj_{n}'(k) \right)  \bY_{nm}(\theta,\phi) + \\
+& i\left(k^2 h_{n}'(kr) + k\frac{h_{n}(kr)}{r}\right) \left( j_{n}(k) + kj_{n}'(k) \right)  \bPsi_{nm}(\theta,\phi) \quad r>1\, .
+\end{cases}
+\end{equation}
+
+\begin{equation}
+\nabla \times \nabla \times \cS_{k}[\bPhi_{nm}](\bx) = \begin{cases}
+ik^3 j_{n}(kr) h_{n}(k) \bPhi_{nm}(\theta,\phi) &\quad r<1 \,, \\
+ik^3 h_{n}(kr) j_{n}(k) \bPhi_{nm}(\theta,\phi) &\quad r>1 \,.
+\end{cases}
 \end{equation}
 \end{document}  
