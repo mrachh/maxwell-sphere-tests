@@ -579,7 +579,7 @@ Y_{nm}(\theta,\phi)\begin{bmatrix}
 \cos{\theta} 
 \end{bmatrix} \, , \\
 \bPsi_{nm}(\theta,\phi) &= 
--P_{n|m|}'(\cos{\theta}) \sin{\theta}\begin{bmatrix}
+-P_{n|m|}'(\cos{\theta}) \sin{\theta} e^{im\phi}\begin{bmatrix}
 \cos{\theta} \cos{\phi} \\
 \cos{\theta} \sin{\phi} \\
 -\sin{\theta} 
@@ -653,4 +653,18 @@ ik^3 j_{n}(kr) h_{n}(k) \bPhi_{nm}(\theta,\phi) &\quad r<1 \,, \\
 ik^3 h_{n}(kr) j_{n}(k) \bPhi_{nm}(\theta,\phi) &\quad r>1 \,.
 \end{cases}
 \end{equation}
+
+\begin{equation}
+\begin{aligned}
+\begin{bmatrix}
+e^{ikr \cos{(\theta)}} \\
+0 \\
+0
+\end{bmatrix}
+&= 
+\sum_{n=1}^{\infty} i^{n} \sqrt{\frac{2n+1}{n(n+1)}} \bigg(j_{n}(kr) \Im{\left(\Phi_{n1}(\theta, \phi)\right)} + \\
+&i\left(\frac{n (n+1)}{kr} j_{n}(kr) \Re{\left(\bY_{n1}(\theta, \phi)\right)} + \left(j_{n}'(kr) + \frac{j_{n}(kr)}{kr} \right) \Re{(\Psi_{n1}(\theta, \phi))}   \right) \bigg)
+\end{aligned}
+\end{equation}
+
 \end{document}  
